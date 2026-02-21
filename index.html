@@ -1,9 +1,173 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>No Secret Club</title></head>
-<body style="background:#0a0a0b; color:#d4af37; text-align:center; padding-top:100px; font-family:sans-serif;">
-    <h1>NO SECRET CLUB</h1>
-    <p style="color:white;">如果看到这个画面，说明网站已经成功运行！</p>
-    <p>请稍后尝试替换成完整版代码。</p>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Secret Club | 占星与心理咨询</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;600&display=swap');
+        
+        body { 
+            margin: 0; 
+            background: #050507; 
+            color: #fff; 
+            overflow-x: hidden; 
+            font-family: 'Noto Serif SC', serif; 
+        }
+        
+        /* 动态背景画布 */
+        #star-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #f7e0a1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.4s ease;
+        }
+
+        .glass-card:hover {
+            border-color: #d4af37;
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-8px);
+        }
+
+        .cta-button {
+            background: #fff;
+            color: #000;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: #d4af37;
+            transform: scale(1.05);
+        }
+
+        /* 呼吸效果 */
+        @keyframes breathe {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+        .breathe { animation: breathe 4s infinite ease-in-out; }
+    </style>
+</head>
+<body>
+
+    <canvas id="star-canvas"></canvas>
+
+    <nav class="flex justify-between items-center p-8 max-w-6xl mx-auto relative z-10">
+        <div class="text-2xl font-bold tracking-[0.3em] gold-gradient">NO SECRET CLUB</div>
+        <div class="hidden md:flex space-x-10 text-sm tracking-widest text-gray-400">
+            <a href="#services" class="hover:text-white transition">咨询方案</a>
+            <a href="#about" class="hover:text-white transition">关于导师</a>
+            <a href="mailto:contact@nosecret.club" class="hover:text-white transition">联系我们</a>
+        </div>
+    </nav>
+
+    <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 relative z-10">
+        <div class="mb-4 inline-block px-4 py-1 border border-gold/30 rounded-full text-xs tracking-widest text-gold-gradient breathe">
+            探索潜意识的宇宙
+        </div>
+        <h1 class="text-5xl md:text-8xl font-light mb-8 tracking-tighter leading-tight">
+            星星与心，<br><span class="font-bold gold-gradient">都没有秘密</span>
+        </h1>
+        <p class="text-gray-400 max-w-2xl leading-loose mb-12 text-lg">
+            NO SECRET CLUB 是你的私人星象与心理顾问。我们通过占星学观测命运的潮汐，透过心理学触碰灵魂的纹理，协助你找回内在的秩序。
+        </p>
+        <div class="flex flex-col md:flex-row gap-6">
+            <a href="#services" class="cta-button">开始深度咨询</a>
+            <a href="https://calendly.com" target="_blank" class="border border-white/20 px-10 py-4 rounded-full font-bold hover:bg-white/10 transition">查看档期</a>
+        </div>
+    </section>
+
+    <section id="services" class="py-32 px-6 max-w-6xl mx-auto relative z-10">
+        <div class="text-center mb-20">
+            <h2 class="text-3xl font-bold gold-gradient mb-4">核心咨询领域</h2>
+            <div class="h-1 w-20 bg-gold-gradient mx-auto"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="glass-card p-10">
+                <div class="text-4xl mb-8">🪐</div>
+                <h3 class="text-2xl font-bold mb-4">本命盘破译</h3>
+                <p class="text-gray-400 leading-relaxed">基于精确出生时空，解读你的天赋架构、情感模式及人生核心课题，看清灵魂的“出厂配置”。</p>
+            </div>
+            <div class="glass-card p-10">
+                <div class="text-4xl mb-8">🌌</div>
+                <h3 class="text-2xl font-bold mb-4">流年运势推演</h3>
+                <p class="text-gray-400 leading-relaxed">结合法达、太阳弧及行星过运，分析当下的机遇与挑战，协助你在正确的时机做出决策。</p>
+            </div>
+            <div class="glass-card p-10">
+                <div class="text-4xl mb-8">🕊️</div>
+                <h3 class="text-2xl font-bold mb-4">心理动力学咨询</h3>
+                <p class="text-gray-400 leading-relaxed">探讨潜意识对现实生活的影响。在一段安全、保密的关系中，修愈早年创伤与关系僵局。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 text-center border-t border-white/5 relative z-10">
+        <div class="text-xl font-bold tracking-[0.2em] gold-gradient mb-6">NO SECRET CLUB</div>
+        <p class="text-gray-500 text-sm mb-4">陪你走过每一个觉醒时刻</p>
+        <p class="text-[10px] text-gray-700 uppercase tracking-widest mt-10">
+            Professional Astrology & Psychology Consulting Services
+        </p>
+    </footer>
+
+    <script>
+        // 星空动效脚本
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            stars = [];
+            for (let i = 0; i < 200; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.8,
+                    speed: Math.random() * 0.3,
+                    opacity: Math.random()
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                s.y -= s.speed;
+                if (s.y < 0) s.y = canvas.height;
+            });
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('resize', init);
+        init();
+        draw();
+    </script>
 </body>
 </html>
