@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No Secret Club | AI 认知代理与行为架构</title>
+    <title>Fluid Insight | 探索流体力学与CFD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;600&display=swap');
         
         body { 
             margin: 0; 
-            /* 浅蓝色与白色相间的柔和渐变背景 */
+            /* 浅蓝色与白色相间的柔和渐变背景，契合流体主题 */
             background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #ffffff 100%); 
             color: #0f172a; 
             overflow-x: hidden; 
@@ -18,7 +18,7 @@
         }
         
         /* 动态背景画布 */
-        #star-canvas { 
+        #fluid-canvas { 
             position: fixed; 
             top: 0; 
             left: 0; 
@@ -27,14 +27,14 @@
             z-index: -1; 
         }
 
-        /* 科技蓝渐变 */
-        .tech-gradient {
-            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+        /* 科技水流蓝渐变 */
+        .fluid-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* 浅色模式下的毛玻璃质感卡片 */
+        /* 毛玻璃质感卡片 */
         .glass-card {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(16px);
@@ -45,27 +45,27 @@
         }
 
         .glass-card:hover {
-            border-color: #93c5fd;
+            border-color: #7dd3fc;
             background: rgba(255, 255, 255, 0.8);
             transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(37, 99, 235, 0.08);
+            box-shadow: 0 12px 40px rgba(14, 165, 233, 0.1);
         }
 
         .cta-button {
-            background: #2563eb;
+            background: #0ea5e9;
             color: #fff;
             padding: 12px 32px;
             border-radius: 50px;
             font-weight: 600;
             transition: 0.3s;
             display: inline-block;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
         }
 
         .cta-button:hover {
-            background: #1d4ed8;
+            background: #0284c7;
             transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
         }
 
         /* 呼吸效果 */
@@ -78,96 +78,108 @@
 </head>
 <body>
 
-    <canvas id="star-canvas"></canvas>
+    <canvas id="fluid-canvas"></canvas>
 
     <nav class="flex justify-between items-center p-8 max-w-6xl mx-auto relative z-10">
-        <div class="text-2xl font-bold tracking-[0.3em] tech-gradient">NO SECRET CLUB</div>
+        <div class="text-2xl font-bold tracking-[0.2em] fluid-gradient">FLUID INSIGHT</div>
         <div class="hidden md:flex space-x-10 text-sm tracking-widest text-slate-500">
-            <a href="#services" class="hover:text-blue-600 transition">认知架构</a>
-            <a href="#about" class="hover:text-blue-600 transition">关于系统</a>
-            <a href="mailto:contact@nosecret.club" class="hover:text-blue-600 transition">接入代理</a>
+            <a href="#concepts" class="hover:text-sky-600 transition">流体力学基础</a>
+            <a href="#cfd" class="hover:text-sky-600 transition">CFD 仿真仿真</a>
+            <a href="mailto:contact@fluidinsight.net" class="hover:text-sky-600 transition">实验探讨</a>
         </div>
     </nav>
 
     <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 relative z-10">
-        <div class="mb-4 inline-block px-4 py-1 border border-blue-200 rounded-full text-xs tracking-widest text-blue-600 bg-white/50 breathe">
-            智能认知，重构生活秩序
+        <div class="mb-4 inline-block px-4 py-1 border border-sky-200 rounded-full text-xs tracking-widest text-sky-600 bg-white/50 breathe">
+            万物皆流，无物常驻
         </div>
         <h1 class="text-5xl md:text-8xl font-light mb-8 tracking-tighter leading-tight text-slate-800">
-            算力与心，<br><span class="font-bold tech-gradient">重构日常轨迹</span>
+            洞察流体，<br><span class="font-bold fluid-gradient">解析物理世界的脉络</span>
         </h1>
         <p class="text-slate-600 max-w-2xl leading-loose mb-12 text-lg">
-            NO SECRET CLUB 是你的 AI 认知代理。我们站在巨人的肩膀上，通过精准的数据行为分析，协助你建立有效的重复模式，在习惯的自动化中找回生活的掌控权。
+            无论是一滴水的坠落，还是复杂反应釜中的多相混合。我们致力于将晦涩的 Navier-Stokes 方程转化为直观的视觉与实验认知，带你走进流体力学与流变学的世界。
         </p>
         <div class="flex flex-col md:flex-row gap-6 justify-center">
-            <a href="#services" class="cta-button">开启智能认知方案</a>
-            <a href="https://calendly.com" target="_blank" class="border border-slate-300 text-slate-700 px-10 py-4 rounded-full font-bold hover:bg-slate-50 transition">查看技术文档</a>
+            <a href="#concepts" class="cta-button">开启流体之旅</a>
+            <a href="https://calendly.com" target="_blank" class="border border-slate-300 text-slate-700 px-10 py-4 rounded-full font-bold hover:bg-slate-50 transition">查看 OpenFOAM 案例</a>
         </div>
     </section>
 
-    <section id="services" class="py-32 px-6 max-w-6xl mx-auto relative z-10">
+    <section id="concepts" class="py-32 px-6 max-w-6xl mx-auto relative z-10">
         <div class="text-center mb-20">
-            <h2 class="text-3xl font-bold tech-gradient mb-4">智能认知架构</h2>
-            <div class="h-1 w-20 bg-blue-500 mx-auto rounded-full"></div>
+            <h2 class="text-3xl font-bold fluid-gradient mb-4">核心探索领域</h2>
+            <div class="h-1 w-20 bg-sky-400 mx-auto rounded-full"></div>
         </div>
         
         <div class="grid md:grid-cols-3 gap-8">
             <div class="glass-card p-10">
-                <div class="text-4xl mb-8">⚙️</div>
-                <h3 class="text-2xl font-bold mb-4 text-slate-800">行为数据建模</h3>
-                <p class="text-slate-600 leading-relaxed">利用数据驱动洞察，拆解你的日常决策逻辑。通过算法优化，将碎片化生活整理为高效的行为序列。</p>
+                <div class="text-4xl mb-8">💧</div>
+                <h3 class="text-2xl font-bold mb-4 text-slate-800">流动力学通识</h3>
+                <p class="text-slate-600 leading-relaxed">从质量、动量到能量守恒。用最直观的方式，带你理解层流、湍流、边界层效应以及伯努利原理在生活中的投射。</p>
             </div>
             <div class="glass-card p-10">
-                <div class="text-4xl mb-8">📈</div>
-                <h3 class="text-2xl font-bold mb-4 text-slate-800">习惯递归优化</h3>
-                <p class="text-slate-600 leading-relaxed">通过“重复”这一最小路径，将宏大目标转化为肌肉记忆，在规律中构建稳定的内核。</p>
+                <div class="text-4xl mb-8">🌪️</div>
+                <h3 class="text-2xl font-bold mb-4 text-slate-800">计算流体力学 (CFD)</h3>
+                <p class="text-slate-600 leading-relaxed">利用计算机与数值算法求解流体方程。通过网格划分与高精度求解器，将不可见的流动过程、压力场与温度场实现全息可视化。</p>
             </div>
             <div class="glass-card p-10">
-                <div class="text-4xl mb-8">🧠</div>
-                <h3 class="text-2xl font-bold mb-4 text-slate-800">认知效能干预</h3>
-                <p class="text-slate-600 leading-relaxed">融合哲学思考与 AI 实时反馈，消除认知偏差，帮你建立可持续的生活反馈回路。</p>
+                <div class="text-4xl mb-8">🍯</div>
+                <h3 class="text-2xl font-bold mb-4 text-slate-800">复杂流变学</h3>
+                <p class="text-slate-600 leading-relaxed">世界并非都是牛顿流体。深入探讨剪切变稀、屈服应力等非牛顿流体特性，解析高分子凝胶与工业制造中的混合奥秘。</p>
             </div>
         </div>
     </section>
 
     <footer class="py-20 text-center border-t border-slate-200 relative z-10">
-        <div class="text-xl font-bold tracking-[0.2em] tech-gradient mb-6">NO SECRET CLUB</div>
-        <p class="text-slate-500 text-sm mb-4">在重复的确定性中，抵御世界的不确定性</p>
+        <div class="text-xl font-bold tracking-[0.2em] fluid-gradient mb-6">FLUID INSIGHT</div>
+        <p class="text-slate-500 text-sm mb-4">Navier-Stokes Equations | CFD Simulation | Rheology</p>
         <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-10">
-            Professional AI Cognitive Agent & Behavior Architecture
+            Making Fluid Dynamics Accessible
         </p>
     </footer>
 
     <script>
-        // 数据节点动效脚本
-        const canvas = document.getElementById('star-canvas');
+        // 流体场动效脚本 (模拟层流与流线波动)
+        const canvas = document.getElementById('fluid-canvas');
         const ctx = canvas.getContext('2d');
-        let nodes = [];
+        let particles = [];
 
         function init() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            nodes = [];
-            for (let i = 0; i < 150; i++) {
-                nodes.push({
+            particles = [];
+            for (let i = 0; i < 200; i++) {
+                particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 2,
-                    speed: Math.random() * 0.4 + 0.1,
-                    opacity: Math.random() * 0.5
+                    size: Math.random() * 2 + 0.5,
+                    // 水平流动速度，模拟泊肃叶流动（中间快，边缘慢的感觉，这里做简化）
+                    speedX: Math.random() * 1.5 + 0.5,
+                    // 波动基数，用于正弦波计算
+                    waveOffset: Math.random() * Math.PI * 2,
+                    opacity: Math.random() * 0.4 + 0.1
                 });
             }
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            nodes.forEach(n => {
-                ctx.fillStyle = `rgba(59, 130, 246, ${n.opacity})`;
+            particles.forEach(p => {
+                ctx.fillStyle = `rgba(14, 165, 233, ${p.opacity})`;
                 ctx.beginPath();
-                ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 ctx.fill();
-                n.y -= n.speed;
-                if (n.y < 0) n.y = canvas.height;
+                
+                // 水平移动
+                p.x += p.speedX;
+                // 添加轻微的上下正弦波动，模拟流线
+                p.y += Math.sin(p.x * 0.01 + p.waveOffset) * 0.3;
+
+                // 越过右侧边界后从左侧重新进入
+                if (p.x > canvas.width) {
+                    p.x = 0;
+                    p.y = Math.random() * canvas.height;
+                }
             });
             requestAnimationFrame(draw);
         }
