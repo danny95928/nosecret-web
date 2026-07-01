@@ -27,7 +27,7 @@
             z-index: -1; 
         }
 
-        /* 科技蓝渐变取代了原本的金色 */
+        /* 科技蓝渐变 */
         .tech-gradient {
             background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
             -webkit-background-clip: text;
@@ -97,7 +97,7 @@
             算力与心，<br><span class="font-bold tech-gradient">重构日常轨迹</span>
         </h1>
         <p class="text-slate-600 max-w-2xl leading-loose mb-12 text-lg">
-            NO SECRET CLUB 是你的 AI 认知代理。我们站在巨人（科学与哲学）的肩膀上，通过精准的数据行为分析，协助你建立有效的重复模式，在习惯的自动化中找回生活的掌控权。
+            NO SECRET CLUB 是你的 AI 认知代理。我们站在巨人的肩膀上，通过精准的数据行为分析，协助你建立有效的重复模式，在习惯的自动化中找回生活的掌控权。
         </p>
         <div class="flex flex-col md:flex-row gap-6 justify-center">
             <a href="#services" class="cta-button">开启智能认知方案</a>
@@ -120,7 +120,7 @@
             <div class="glass-card p-10">
                 <div class="text-4xl mb-8">📈</div>
                 <h3 class="text-2xl font-bold mb-4 text-slate-800">习惯递归优化</h3>
-                <p class="text-slate-600 leading-relaxed">基于认知科学，通过“重复”这一最小路径，将宏大目标转化为肌肉记忆，在规律中构建稳定的内核。</p>
+                <p class="text-slate-600 leading-relaxed">通过“重复”这一最小路径，将宏大目标转化为肌肉记忆，在规律中构建稳定的内核。</p>
             </div>
             <div class="glass-card p-10">
                 <div class="text-4xl mb-8">🧠</div>
@@ -139,7 +139,7 @@
     </footer>
 
     <script>
-        // 数据节点动效脚本 (改为浅蓝色的科技感数据流)
+        // 数据节点动效脚本
         const canvas = document.getElementById('star-canvas');
         const ctx = canvas.getContext('2d');
         let nodes = [];
@@ -154,7 +154,6 @@
                     y: Math.random() * canvas.height,
                     size: Math.random() * 2,
                     speed: Math.random() * 0.4 + 0.1,
-                    // 随机生成不同深浅的蓝色透明度
                     opacity: Math.random() * 0.5
                 });
             }
@@ -163,7 +162,6 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             nodes.forEach(n => {
-                // 使用蓝色 rgb(59, 130, 246) 代替原本的白色
                 ctx.fillStyle = `rgba(59, 130, 246, ${n.opacity})`;
                 ctx.beginPath();
                 ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
