@@ -10,8 +10,9 @@
         
         body { 
             margin: 0; 
-            background: #050507; 
-            color: #fff; 
+            /* 浅蓝色与白色相间的柔和渐变背景 */
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #ffffff 100%); 
+            color: #0f172a; 
             overflow-x: hidden; 
             font-family: 'Noto Serif SC', serif; 
         }
@@ -26,45 +27,51 @@
             z-index: -1; 
         }
 
-        .gold-gradient {
-            background: linear-gradient(135deg, #d4af37 0%, #f7e0a1 100%);
+        /* 科技蓝渐变取代了原本的金色 */
+        .tech-gradient {
+            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        /* 浅色模式下的毛玻璃质感卡片 */
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 1);
             border-radius: 24px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
             transition: all 0.4s ease;
         }
 
         .glass-card:hover {
-            border-color: #d4af37;
-            background: rgba(255, 255, 255, 0.06);
+            border-color: #93c5fd;
+            background: rgba(255, 255, 255, 0.8);
             transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(37, 99, 235, 0.08);
         }
 
         .cta-button {
-            background: #fff;
-            color: #000;
+            background: #2563eb;
+            color: #fff;
             padding: 12px 32px;
             border-radius: 50px;
             font-weight: 600;
             transition: 0.3s;
             display: inline-block;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
         }
 
         .cta-button:hover {
-            background: #d4af37;
+            background: #1d4ed8;
             transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
         }
 
         /* 呼吸效果 */
         @keyframes breathe {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
         }
         .breathe { animation: breathe 4s infinite ease-in-out; }
     </style>
@@ -74,93 +81,95 @@
     <canvas id="star-canvas"></canvas>
 
     <nav class="flex justify-between items-center p-8 max-w-6xl mx-auto relative z-10">
-        <div class="text-2xl font-bold tracking-[0.3em] gold-gradient">NO SECRET CLUB</div>
-        <div class="hidden md:flex space-x-10 text-sm tracking-widest text-gray-400">
-            <a href="#services" class="hover:text-white transition">认知架构</a>
-            <a href="#about" class="hover:text-white transition">关于系统</a>
-            <a href="mailto:contact@nosecret.club" class="hover:text-white transition">接入代理</a>
+        <div class="text-2xl font-bold tracking-[0.3em] tech-gradient">NO SECRET CLUB</div>
+        <div class="hidden md:flex space-x-10 text-sm tracking-widest text-slate-500">
+            <a href="#services" class="hover:text-blue-600 transition">认知架构</a>
+            <a href="#about" class="hover:text-blue-600 transition">关于系统</a>
+            <a href="mailto:contact@nosecret.club" class="hover:text-blue-600 transition">接入代理</a>
         </div>
     </nav>
 
     <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 relative z-10">
-        <div class="mb-4 inline-block px-4 py-1 border border-gold/30 rounded-full text-xs tracking-widest text-gold-gradient breathe">
+        <div class="mb-4 inline-block px-4 py-1 border border-blue-200 rounded-full text-xs tracking-widest text-blue-600 bg-white/50 breathe">
             智能认知，重构生活秩序
         </div>
-        <h1 class="text-5xl md:text-8xl font-light mb-8 tracking-tighter leading-tight">
-            算力与心，<br><span class="font-bold gold-gradient">重构日常轨迹</span>
+        <h1 class="text-5xl md:text-8xl font-light mb-8 tracking-tighter leading-tight text-slate-800">
+            算力与心，<br><span class="font-bold tech-gradient">重构日常轨迹</span>
         </h1>
-        <p class="text-gray-400 max-w-2xl leading-loose mb-12 text-lg">
+        <p class="text-slate-600 max-w-2xl leading-loose mb-12 text-lg">
             NO SECRET CLUB 是你的 AI 认知代理。我们站在巨人（科学与哲学）的肩膀上，通过精准的数据行为分析，协助你建立有效的重复模式，在习惯的自动化中找回生活的掌控权。
         </p>
-        <div class="flex flex-col md:flex-row gap-6">
+        <div class="flex flex-col md:flex-row gap-6 justify-center">
             <a href="#services" class="cta-button">开启智能认知方案</a>
-            <a href="https://calendly.com" target="_blank" class="border border-white/20 px-10 py-4 rounded-full font-bold hover:bg-white/10 transition">查看技术文档</a>
+            <a href="https://calendly.com" target="_blank" class="border border-slate-300 text-slate-700 px-10 py-4 rounded-full font-bold hover:bg-slate-50 transition">查看技术文档</a>
         </div>
     </section>
 
     <section id="services" class="py-32 px-6 max-w-6xl mx-auto relative z-10">
         <div class="text-center mb-20">
-            <h2 class="text-3xl font-bold gold-gradient mb-4">智能认知架构</h2>
-            <div class="h-1 w-20 bg-gold-gradient mx-auto"></div>
+            <h2 class="text-3xl font-bold tech-gradient mb-4">智能认知架构</h2>
+            <div class="h-1 w-20 bg-blue-500 mx-auto rounded-full"></div>
         </div>
         
         <div class="grid md:grid-cols-3 gap-8">
             <div class="glass-card p-10">
                 <div class="text-4xl mb-8">⚙️</div>
-                <h3 class="text-2xl font-bold mb-4">行为数据建模</h3>
-                <p class="text-gray-400 leading-relaxed">利用数据驱动洞察，拆解你的日常决策逻辑。通过算法优化，将碎片化生活整理为高效的行为序列。</p>
+                <h3 class="text-2xl font-bold mb-4 text-slate-800">行为数据建模</h3>
+                <p class="text-slate-600 leading-relaxed">利用数据驱动洞察，拆解你的日常决策逻辑。通过算法优化，将碎片化生活整理为高效的行为序列。</p>
             </div>
             <div class="glass-card p-10">
                 <div class="text-4xl mb-8">📈</div>
-                <h3 class="text-2xl font-bold mb-4">习惯递归优化</h3>
-                <p class="text-gray-400 leading-relaxed">基于认知科学，通过“重复”这一最小路径，将宏大目标转化为肌肉记忆，在规律中构建稳定的内核。</p>
+                <h3 class="text-2xl font-bold mb-4 text-slate-800">习惯递归优化</h3>
+                <p class="text-slate-600 leading-relaxed">基于认知科学，通过“重复”这一最小路径，将宏大目标转化为肌肉记忆，在规律中构建稳定的内核。</p>
             </div>
             <div class="glass-card p-10">
                 <div class="text-4xl mb-8">🧠</div>
-                <h3 class="text-2xl font-bold mb-4">认知效能干预</h3>
-                <p class="text-gray-400 leading-relaxed">融合哲学思考与 AI 实时反馈，消除认知偏差，帮你建立可持续的生活反馈回路。</p>
+                <h3 class="text-2xl font-bold mb-4 text-slate-800">认知效能干预</h3>
+                <p class="text-slate-600 leading-relaxed">融合哲学思考与 AI 实时反馈，消除认知偏差，帮你建立可持续的生活反馈回路。</p>
             </div>
         </div>
     </section>
 
-    <footer class="py-20 text-center border-t border-white/5 relative z-10">
-        <div class="text-xl font-bold tracking-[0.2em] gold-gradient mb-6">NO SECRET CLUB</div>
-        <p class="text-gray-500 text-sm mb-4">在重复的确定性中，抵御世界的不确定性</p>
-        <p class="text-[10px] text-gray-700 uppercase tracking-widest mt-10">
+    <footer class="py-20 text-center border-t border-slate-200 relative z-10">
+        <div class="text-xl font-bold tracking-[0.2em] tech-gradient mb-6">NO SECRET CLUB</div>
+        <p class="text-slate-500 text-sm mb-4">在重复的确定性中，抵御世界的不确定性</p>
+        <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-10">
             Professional AI Cognitive Agent & Behavior Architecture
         </p>
     </footer>
 
     <script>
-        // 星空动效脚本 (在此主题下隐喻神经元与数据节点)
+        // 数据节点动效脚本 (改为浅蓝色的科技感数据流)
         const canvas = document.getElementById('star-canvas');
         const ctx = canvas.getContext('2d');
-        let stars = [];
+        let nodes = [];
 
         function init() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            stars = [];
-            for (let i = 0; i < 200; i++) {
-                stars.push({
+            nodes = [];
+            for (let i = 0; i < 150; i++) {
+                nodes.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 1.8,
-                    speed: Math.random() * 0.3,
-                    opacity: Math.random()
+                    size: Math.random() * 2,
+                    speed: Math.random() * 0.4 + 0.1,
+                    // 随机生成不同深浅的蓝色透明度
+                    opacity: Math.random() * 0.5
                 });
             }
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            stars.forEach(s => {
-                ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
+            nodes.forEach(n => {
+                // 使用蓝色 rgb(59, 130, 246) 代替原本的白色
+                ctx.fillStyle = `rgba(59, 130, 246, ${n.opacity})`;
                 ctx.beginPath();
-                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.arc(n.x, n.y, n.size, 0, Math.PI * 2);
                 ctx.fill();
-                s.y -= s.speed;
-                if (s.y < 0) s.y = canvas.height;
+                n.y -= n.speed;
+                if (n.y < 0) n.y = canvas.height;
             });
             requestAnimationFrame(draw);
         }
