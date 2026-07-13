@@ -3,144 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluid Insight | 探索流体力学与CFD</title>
+    <title>Fluid Insight | 个人研究与思考笔记</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=JetBrains+Mono:wght@400&display=swap');
         
         body { 
             margin: 0; 
-            /* 浅蓝色与白色相间的柔和渐变背景，契合流体主题 */
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #ffffff 100%); 
-            color: #0f172a; 
+            /* 采用学术风/日记本风格的温和背景色 */
+            background-color: #fafaf9; 
+            color: #333333; 
             overflow-x: hidden; 
             font-family: 'Noto Serif SC', serif; 
+            line-height: 1.7;
         }
-        
-        /* 动态背景画布 */
-        #fluid-canvas { 
+
+        /* 强调代码与数理逻辑的等宽字体 */
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* 极简动态背景，透明度极低，不喧宾夺主 */
+        #particle-canvas { 
             position: fixed; 
             top: 0; 
             left: 0; 
             width: 100%; 
             height: 100%; 
             z-index: -1; 
+            opacity: 0.4;
         }
 
-        /* 科技水流蓝渐变 */
-        .fluid-gradient {
-            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* 个人博客风格的极简卡片 */
+        .note-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-left: 3px solid #d1d5db;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
         }
 
-        /* 毛玻璃质感卡片 */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 1);
-            border-radius: 24px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-            transition: all 0.4s ease;
+        .note-card:hover {
+            border-left-color: #64748b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            transform: translateX(4px);
         }
 
-        .glass-card:hover {
-            border-color: #7dd3fc;
-            background: rgba(255, 255, 255, 0.8);
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px rgba(14, 165, 233, 0.1);
+        /* 文内标记高亮 */
+        .highlight {
+            background: linear-gradient(120deg, #e0f2fe 0%, #e0f2fe 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 30%;
+            background-position: 0 90%;
         }
-
-        .cta-button {
-            background: #0ea5e9;
-            color: #fff;
-            padding: 12px 32px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: 0.3s;
-            display: inline-block;
-            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
-        }
-
-        .cta-button:hover {
-            background: #0284c7;
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
-        }
-
-        /* 呼吸效果 */
-        @keyframes breathe {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-        .breathe { animation: breathe 4s infinite ease-in-out; }
     </style>
 </head>
-<body>
+<body class="antialiased selection:bg-sky-100 selection:text-sky-900">
 
-    <canvas id="fluid-canvas"></canvas>
+    <canvas id="particle-canvas"></canvas>
 
-    <nav class="flex justify-between items-center p-8 max-w-6xl mx-auto relative z-10">
-        <div class="text-2xl font-bold tracking-[0.2em] fluid-gradient">FLUID INSIGHT</div>
-        <div class="hidden md:flex space-x-10 text-sm tracking-widest text-slate-500">
-            <a href="#concepts" class="hover:text-sky-600 transition">流体力学基础</a>
-            <a href="#cfd" class="hover:text-sky-600 transition">CFD 仿真</a>
-            <a href="mailto:contact@fluidinsight.net" class="hover:text-sky-600 transition">实验探讨</a>
+    <!-- 顶部导航：极简文本风格 -->
+    <nav class="max-w-4xl mx-auto px-6 py-12 flex justify-between items-baseline border-b border-stone-200">
+        <div>
+            <a href="#" class="text-2xl font-black tracking-wide text-stone-800 no-underline">
+                Fluid Insight
+            </a>
+            <span class="ml-3 text-sm text-stone-500 font-mono hidden sm:inline-block">/ Digital Garden</span>
+        </div>
+        <div class="space-x-6 text-sm text-stone-600 font-mono">
+            <a href="#about" class="hover:text-stone-900 underline decoration-stone-300 underline-offset-4">About</a>
+            <a href="#notes" class="hover:text-stone-900 underline decoration-stone-300 underline-offset-4">Notes</a>
+            <a href="mailto:contact@example.com" class="hover:text-stone-900 underline decoration-stone-300 underline-offset-4">Contact</a>
         </div>
     </nav>
 
-    <section class="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 relative z-10">
-        <div class="mb-4 inline-block px-4 py-1 border border-sky-200 rounded-full text-xs tracking-widest text-sky-600 bg-white/50 breathe">
-            万物皆流，无物常驻
-        </div>
-        <h1 class="text-5xl md:text-8xl font-light mb-8 tracking-tighter leading-tight text-slate-800">
-            洞察流体，<br><span class="font-bold fluid-gradient">解析物理世界的脉络</span>
-        </h1>
-        <p class="text-slate-600 max-w-2xl leading-loose mb-12 text-lg">
-            无论是一滴水的坠落，还是复杂反应釜中的多相混合。我们致力于将晦涩的 Navier-Stokes 方程转化为直观的视觉与实验认知，带你走进流体力学与流变学的世界。
-        </p>
-        <div class="flex flex-col md:flex-row gap-6 justify-center">
-            <a href="#concepts" class="cta-button">开启流体之旅</a>
-            <a href="https://calendly.com" target="_blank" class="border border-slate-300 text-slate-700 px-10 py-4 rounded-full font-bold hover:bg-slate-50 transition">查看 OpenFOAM 案例</a>
-        </div>
-    </section>
-
-    <section id="concepts" class="py-32 px-6 max-w-6xl mx-auto relative z-10">
-        <div class="text-center mb-20">
-            <h2 class="text-3xl font-bold fluid-gradient mb-4">核心探索领域</h2>
-            <div class="h-1 w-20 bg-sky-400 mx-auto rounded-full"></div>
-        </div>
+    <!-- 主体内容区：左对齐，适宜阅读的文本宽度 -->
+    <main class="max-w-4xl mx-auto px-6 py-16">
         
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="glass-card p-10">
-                <div class="text-4xl mb-8">💧</div>
-                <h3 class="text-2xl font-bold mb-4 text-slate-800">流动力学通识</h3>
-                <p class="text-slate-600 leading-relaxed">从质量、动量到能量守恒。用最直观的方式，带你理解层流、湍流、边界层效应以及伯努利原理在生活中的投射。</p>
+        <!-- 个人简介区 -->
+        <header class="mb-20 max-w-2xl">
+            <h1 class="text-3xl md:text-4xl font-bold mb-6 text-stone-800 leading-snug">
+                跨越离散与连续的边界：<br>
+                <span class="text-stone-500 font-normal">流变学、CFD与系统动力的探索</span>
+            </h1>
+            <p class="text-stone-600 mb-6 text-lg">
+                你好。我主要从事计算流体力学（CFD）与复杂工业系统的研究。
+                我迷恋一种物理与数学上的跨越：当离散的微观个体（如走随机步的分子、复杂网络节点）因为数量爆炸而陷入“维数灾难”时，我们如何通过 <span class="highlight">平均场近似</span> 与 <span class="highlight">大数定律</span>，将它们转化为宏观、平滑且可解的连续偏微分方程。
+            </p>
+            <div class="font-mono text-xs text-stone-400 mt-8 flex gap-4">
+                <span>> OpenFOAM</span>
+                <span>> Rheology</span>
+                <span>> Mean-Field Theory</span>
             </div>
-            <div class="glass-card p-10">
-                <div class="text-4xl mb-8">🌪️</div>
-                <h3 class="text-2xl font-bold mb-4 text-slate-800">计算流体力学 (CFD)</h3>
-                <p class="text-slate-600 leading-relaxed">利用计算机与数值算法求解流体方程。通过网格划分与高精度求解器，将不可见的流动过程、压力场与温度场实现全息可视化。</p>
-            </div>
-            <div class="glass-card p-10">
-                <div class="text-4xl mb-8">🍯</div>
-                <h3 class="text-2xl font-bold mb-4 text-slate-800">复杂流变学</h3>
-                <p class="text-slate-600 leading-relaxed">世界并非都是牛顿流体。深入探讨剪切变稀、屈服应力等非牛顿流体特性，解析高分子凝胶与工业制造中的混合奥秘。</p>
-            </div>
-        </div>
-    </section>
+        </header>
 
-    <footer class="py-20 text-center border-t border-slate-200 relative z-10">
-        <div class="text-xl font-bold tracking-[0.2em] fluid-gradient mb-6">FLUID INSIGHT</div>
-        <p class="text-slate-500 text-sm mb-4">Navier-Stokes Equations | CFD Simulation | Rheology</p>
-        <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-10">
-            Making Fluid Dynamics Accessible
-        </p>
+        <!-- 研究笔记 / 文章列表 -->
+        <section id="notes" class="mb-20">
+            <h2 class="text-xl font-bold mb-8 text-stone-800 flex items-center">
+                <span class="w-4 h-4 rounded-full bg-stone-200 mr-3"></span>
+                近期笔记与思考 (Recent Notes)
+            </h2>
+            
+            <div class="space-y-6">
+                <!-- 笔记卡片 1 -->
+                <article class="note-card">
+                    <div class="text-xs font-mono text-stone-400 mb-2">2026-03-15 · Math & Physics</div>
+                    <h3 class="text-lg font-bold mb-2 text-stone-800">
+                        <a href="#" class="hover:text-sky-700 transition-colors">拆解：从主方程到 Fokker-Planck 方程的演变</a>
+                    </h3>
+                    <p class="text-stone-600 text-sm">
+                        在讨论离散跳跃如何转化为连续流体时，Kramers-Moyal 展开是绕不开的数学桥梁。这篇笔记记录了如何将微观粒子的 Master Equation，通过截断高阶矩，近似出带有对流项与扩散项的宏观场方程。
+                    </p>
+                </article>
+
+                <!-- 笔记卡片 2 -->
+                <article class="note-card">
+                    <div class="text-xs font-mono text-stone-400 mb-2">2026-02-28 · CFD & Rheology</div>
+                    <h3 class="text-lg font-bold mb-2 text-stone-800">
+                        <a href="#" class="hover:text-sky-700 transition-colors">复杂流体的连续化：Herschel-Bulkley 本构的微观解释</a>
+                    </h3>
+                    <p class="text-stone-600 text-sm">
+                        在 OpenFOAM 中模拟日化反应釜时，非牛顿流体特性（如屈服应力和剪切变稀）的底层逻辑是什么？从凝胶网络的微观断裂概率，推导至宏观 CFD 中使用的连续张量模型。
+                    </p>
+                </article>
+
+                <!-- 笔记卡片 3 -->
+                <article class="note-card">
+                    <div class="text-xs font-mono text-stone-400 mb-2">2026-01-10 · Control Theory</div>
+                    <h3 class="text-lg font-bold mb-2 text-stone-800">
+                        <a href="#" class="hover:text-sky-700 transition-colors">系统控制中的降维打击：从离散多智能体到连续平均场控制</a>
+                    </h3>
+                    <p class="text-stone-600 text-sm">
+                        对比 HJB (Hamilton-Jacobi-Bellman) 方程与多智能体强化学习。探讨当智能体数量 N 趋于无穷时，拉斯里-利翁方程如何让原本棘手的纳什均衡变得“如丝般顺滑”。
+                    </p>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 极简页脚 -->
+    <footer class="max-w-4xl mx-auto px-6 py-10 border-t border-stone-200 mt-10">
+        <div class="flex justify-between items-center text-xs text-stone-400 font-mono">
+            <p>© 2026 Fluid Insight.</p>
+            <p>万物皆流，无物常驻。</p>
+        </div>
     </footer>
 
     <script>
-        // 流体场动效脚本 (模拟层流与流线波动)
-        const canvas = document.getElementById('fluid-canvas');
+        // 学术风的微观粒子/拓扑网络背景动效
+        const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
 
@@ -148,39 +160,52 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             particles = [];
-            for (let i = 0; i < 200; i++) {
+            // 粒子数量不需要太多，保持页面整洁
+            const particleCount = Math.floor(window.innerWidth / 15);
+            for (let i = 0; i < particleCount; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 2 + 0.5,
-                    // 水平流动速度，模拟泊肃叶流动（中间快，边缘慢的感觉，这里做简化）
-                    speedX: Math.random() * 1.5 + 0.5,
-                    // 波动基数，用于正弦波计算
-                    waveOffset: Math.random() * Math.PI * 2,
-                    opacity: Math.random() * 0.4 + 0.1
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 1.5 + 0.5
                 });
             }
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                ctx.fillStyle = `rgba(14, 165, 233, ${p.opacity})`;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // 水平移动
-                p.x += p.speedX;
-                // 添加轻微的上下正弦波动，模拟流线
-                p.y += Math.sin(p.x * 0.01 + p.waveOffset) * 0.3;
+            
+            ctx.fillStyle = '#94a3b8'; // 柔和的灰蓝色
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)'; // 极淡的连线
 
-                // 越过右侧边界后从左侧重新进入
-                if (p.x > canvas.width) {
-                    p.x = 0;
-                    p.y = Math.random() * canvas.height;
+            particles.forEach((p, index) => {
+                // 更新位置（布朗运动感）
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // 边界反弹
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                // 绘制粒子
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 绘制距离相近粒子之间的连线（隐喻离散节点的拓扑互联）
+                for (let j = index + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
                 }
             });
+
             requestAnimationFrame(draw);
         }
 
