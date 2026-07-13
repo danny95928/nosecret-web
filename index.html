@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluid Insight | 双瀑布数字花园</title>
+    <!-- 保留浏览器最上面的 Tab 标题 -->
+    <title>Fluid Insight | 宏微观演变笔记</title>
+    <!-- 添加网页 Icon (Favicon) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💧</text></svg>">
     
-    <!-- Tailwind CSS -->
+    <!-- 引入 Tailwind CSS 框架 -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- KaTeX for beautiful Math Rendering -->
+    <!-- 引入 KaTeX 用于优雅渲染数学公式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
@@ -18,52 +21,64 @@
         
         body { 
             margin: 0; 
+            /* 保持原有的个人学术数字花园背景色 */
             background-color: #fafaf9; 
             color: #333333; 
-            overflow: hidden; /* 锁定主屏幕滚动，依靠内部区域滚动 */
+            overflow: hidden; /* 锁定主屏幕，依靠两个瀑布区独立滚动 */
             font-family: 'Noto Serif SC', serif; 
         }
 
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-        /* 极简粒子背景 */
+        /* 原有的微观粒子拓扑网络背景 */
         #particle-canvas { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.3;
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -1; 
+            opacity: 0.3;
+            pointer-events: none;
         }
 
-        /* 优雅的自定义滚动条 */
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        /* 隐藏默认滚动条，使用极简样式 */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        /* 左侧卡片样式 */
+        /* 左侧：笔记卡片交互样式 */
         .note-card {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(8px);
             border: 1px solid #e5e7eb;
             border-left: 3px solid #d1d5db;
             padding: 1.25rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
-        .note-card:hover, .note-card.active {
+        .note-card:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(4px);
+        }
+        .note-card.active {
             border-left-color: #0ea5e9;
             background: #ffffff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.05);
             transform: translateX(4px);
         }
 
-        /* 右侧瀑布流连线样式 ( Timeline ) */
+        /* 右侧：数学推导的时间轴连线样式 */
         .step-container { position: relative; padding-left: 2.5rem; margin-bottom: 2rem; }
         .step-container::before {
             content: '';
             position: absolute;
             left: 0.75rem;
-            top: 2rem;
-            bottom: -2rem;
+            top: 2.5rem;
+            bottom: -1.5rem;
             width: 2px;
-            background: #e5e7eb;
+            background: #e2e8f0;
         }
         .step-container:last-child::before { display: none; }
         
@@ -81,84 +96,99 @@
             justify-content: center;
             font-size: 0.75rem;
             color: #475569;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 0 0 4px #ffffff;
         }
 
-        /* 数学公式展示框 */
+        /* 数学公式独立展示框 */
         .math-box {
             background: #fefefe;
             border: 1px dashed #cbd5e1;
-            padding: 1rem;
+            padding: 1rem 1.5rem;
             border-radius: 8px;
             overflow-x: auto;
-            margin-top: 0.75rem;
-            color: #1e293b;
+            margin-top: 1rem;
+            color: #0f172a;
             font-size: 1.05rem;
         }
     </style>
 </head>
-<body class="antialiased h-screen flex flex-col">
+<body class="antialiased h-screen flex flex-col selection:bg-sky-100 selection:text-sky-900">
 
+    <!-- 粒子网络背景 -->
     <canvas id="particle-canvas"></canvas>
 
-    <!-- 顶部导航 -->
-    <nav class="w-full px-8 py-6 flex justify-between items-baseline border-b border-stone-200/60 bg-white/50 backdrop-blur-sm z-10 shrink-0">
-        <div>
-            <a href="#" class="text-xl font-black tracking-widest text-stone-800 no-underline">Fluid Insight</a>
-            <span class="ml-3 text-xs text-stone-500 font-mono hidden sm:inline-block">/ Digital Garden</span>
+    <!-- 顶部导航区 (保留原有的顶栏框架) -->
+    <nav class="w-full px-8 py-5 flex justify-between items-center border-b border-stone-200/60 bg-white/60 backdrop-blur-md z-10 shrink-0">
+        <div class="flex items-center gap-3">
+            <span class="text-xl">💧</span>
+            <a href="#" class="text-xl font-black tracking-widest text-stone-800 no-underline">
+                Fluid Insight
+            </a>
+            <span class="text-xs text-stone-400 font-mono hidden sm:inline-block ml-2 border-l border-stone-300 pl-3">
+                Digital Garden
+            </span>
         </div>
-        <div class="text-xs text-stone-500 font-mono">
-            <span>[ MACRO_MICRO_TRANSITIONS ]</span>
+        <div class="text-xs text-stone-400 font-mono hidden md:block">
+            <span>> /sys/macro_micro_transitions</span>
         </div>
     </nav>
 
-    <!-- 双瀑布流工作区 -->
-    <main class="flex-1 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 p-6 overflow-hidden">
+    <!-- NotebookLM 风格：双栏瀑布流核心工作区 -->
+    <main class="flex-1 w-full max-w-[90rem] mx-auto grid grid-cols-1 md:grid-cols-12 gap-6 p-4 md:p-6 overflow-hidden">
         
-        <!-- 左侧瀑布区：卡片索引 (按离散到连续深度排列) -->
-        <div class="md:col-span-4 h-full overflow-y-auto custom-scrollbar pr-2 pb-10 space-y-4" id="index-list">
-            <h2 class="text-sm font-bold text-stone-400 font-mono tracking-widest mb-6"># EVOLUTION_PATH</h2>
-            <!-- 卡片由 JS 动态渲染 -->
+        <!-- 左侧瀑布区：研究卡片索引 -->
+        <div class="md:col-span-4 lg:col-span-3 h-full overflow-y-auto custom-scrollbar pr-2 pb-10 space-y-3" id="index-list">
+            <div class="sticky top-0 bg-[#fafaf9]/90 backdrop-blur pb-3 pt-1 z-10">
+                <h2 class="text-xs font-bold text-stone-400 font-mono tracking-widest uppercase">
+                    # Evolution_Path (离散 -> 连续)
+                </h2>
+            </div>
+            <!-- 卡片将由 JS 动态渲染插入此处 -->
         </div>
 
-        <!-- 右侧瀑布区：动态数学推导展示 -->
-        <div class="md:col-span-8 h-full overflow-y-auto custom-scrollbar bg-white/80 backdrop-blur-md border border-stone-200 rounded-2xl p-8 shadow-sm" id="detail-view">
+        <!-- 右侧瀑布区：动态数学与图解推导展示 -->
+        <div class="md:col-span-8 lg:col-span-9 h-full overflow-y-auto custom-scrollbar bg-white/70 backdrop-blur-xl border border-stone-200/80 rounded-2xl p-8 lg:p-12 shadow-sm" id="detail-view">
             <!-- 初始占位提示 -->
             <div class="h-full flex flex-col items-center justify-center text-stone-400">
-                <svg class="w-12 h-12 mb-4 text-stone-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-                <p class="font-mono text-sm">选择左侧笔记，展开数学演变过程</p>
+                <svg class="w-12 h-12 mb-4 text-stone-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                </svg>
+                <p class="font-mono text-sm tracking-wide">👈 请选择左侧研究笔记，展开数学演化卷轴</p>
             </div>
         </div>
     </main>
 
     <script>
-        // 定义数据结构：按照 离散 -> 粗粒化 -> 连续 的逻辑
+        // --- 核心数据结构 ---
+        // 按照“微观离散 -> 中间态粗粒化 -> 宏观连续”的逻辑轴心构建数据
         const noteData = [
             {
                 id: 1,
                 date: "2026-03-15",
-                tag: "Probability & Stochastics",
+                tag: "Stochastics",
                 title: "1. 离散随机步与 Fokker-Planck",
                 desc: "追踪微观粒子的 Master Equation，通过 Kramers-Moyal 截断逼近连续概率场。",
                 details: {
                     title: "从离散跳跃到连续概率场",
-                    intro: "当系统中粒子数量激增时，精确追踪每一个离散跳跃概率会导致状态空间爆炸。大数定律允许我们将其平滑化。",
+                    intro: "当系统中粒子数量激增时，精确追踪每一个离散跳跃概率会导致状态空间爆炸。概率论中的大数定律允许我们将极其随机的局部跳跃，平滑化为确定性的宏观流体方程。",
                     steps: [
                         {
                             icon: "●", 
                             label: "[ 微观/离散 ] 主方程 (Master Equation)",
-                            text: "系统在离散状态间的随机跳跃，基于转移概率 $W(x|x')$ 描述状态演化：",
-                            math: "$$ \\frac{\\partial P(x,t)}{\\partial t} = \\int [W(x|x')P(x',t) - W(x'|x)P(x,t)] dx' $$"
+                            text: "系统在离散状态间的随机跳跃，基于转移概率 $W(x|x')$ 描述单个粒子状态的演化：",
+                            math: "$$ \\frac{\\partial P(x,t)}{\\partial t} = \\int \\left[ W(x|x')P(x',t) - W(x'|x)P(x,t) \\right] dx' $$"
                         },
                         {
                             icon: "∫", 
                             label: "[ 中间态/粗粒化 ] Kramers-Moyal 展开",
-                            text: "将跳跃距离作为微小量进行泰勒展开，定义跳跃矩（Moments）：",
-                            math: "$$ \\frac{\\partial P(x,t)}{\\partial t} = \\sum_{n=1}^{\\infty} \\frac{(-1)^n}{n!} \\frac{\\partial^n}{\\partial x^n} [D_n(x) P(x,t)] $$"
+                            text: "将跳跃距离作为微小量进行泰勒展开，定义不同阶数的跳跃矩（Moments）：",
+                            math: "$$ \\frac{\\partial P(x,t)}{\\partial t} = \\sum_{n=1}^{\\infty} \\frac{(-1)^n}{n!} \\frac{\\partial^n}{\\partial x^n} \\left[ D_n(x) P(x,t) \\right] $$"
                         },
                         {
                             icon: "≈", 
-                            label: "[ 宏观/连续 ] 截断与 PDE",
-                            text: "忽略高阶矩，只保留漂移项 $D_1$ 和扩散项 $D_2$，得到宏观平滑偏微分方程：",
+                            label: "[ 宏观/连续 ] 截断与连续场 PDE",
+                            text: "截断并忽略高阶矩，只保留一阶漂移项 $D_1$ 和二阶扩散项 $D_2$，得到经典的 Fokker-Planck 宏观方程：",
                             math: "$$ \\frac{\\partial P}{\\partial t} = -\\frac{\\partial}{\\partial x} (D_1(x) P) + \\frac{\\partial^2}{\\partial x^2} (D_2(x) P) $$"
                         }
                     ]
@@ -168,28 +198,28 @@
                 id: 2,
                 date: "2026-03-20",
                 tag: "CFD & Rheology",
-                title: "2. 凝胶网络至 Herschel-Bulkley",
-                desc: "PCP (Personal Care Products) 制造中的多相流混合，从分子网状断裂到 CFD 本构。",
+                title: "2. 凝胶网络至 Herschel-Bulkley 本构",
+                desc: "PCP 反应釜中的多相混合，从微观凝胶网状断裂转化为宏观 CFD 连续计算。",
                 details: {
-                    title: "复杂层状凝胶网络的宏观本构转化",
-                    intro: "在模拟 Personal Care Products (PCP) 反应釜内的非牛顿流体时，OpenFOAM 无法追踪局部胶束网络的断裂。我们需要将其均质化。",
+                    title: "复杂层状凝胶网络 (Lamellar Gel) 的宏观本构转化",
+                    intro: "在模拟 Personal Care Products (PCP) 搅拌过程时，OpenFOAM 无法追踪局部胶束网络的物理断裂。我们需要将这种微观上的应力阈值现象，转化为计算流体力学中的连续张量模型。",
                     steps: [
                         {
                             icon: "☍", 
-                            label: "[ 微观/离散 ] 局部应力交互",
-                            text: "由范德华力和高分子纠缠构成的离散微观粒子网络，其局部屈服取决于单键能量：",
-                            math: "$$ \\tau_{local} = \\sum_{i,j} \\mathbf{F}_{ij} \\cdot \\mathbf{r}_{ij} \\quad \\text{(在极小尺度发生断裂)} $$"
+                            label: "[ 微观/离散 ] 局部网络与应力交互",
+                            text: "由添加剂构成的离散微观粒子网络，其局部屈服取决于网络单键的断裂能量与拉伸幅度：",
+                            math: "$$ \\tau_{local} = \\sum_{i,j} \\mathbf{F}_{ij} \\cdot \\mathbf{r}_{ij} \\quad \\text{(仅在极小空间尺度发生)} $$"
                         },
                         {
                             icon: "⟨⟩", 
-                            label: "[ 中间态/粗粒化 ] 均场近似与时间平均",
-                            text: "在表征体积元 (RVE) 内，将离散的屈服事件平均为连续的概率分布，建立剪切率 $\\dot{\\gamma}$ 与整体结构的关联：",
+                            label: "[ 中间态/粗粒化 ] 表征体积元均场近似",
+                            text: "在表征体积元 (RVE) 内，将离散的屈服事件求均值，建立局部剪切率 $\\dot{\\gamma}$ 与整体空间分布的关联：",
                             math: "$$ \\langle \\tau \\rangle = \\tau_{yield} + \\lim_{V \\to \\infty} \\frac{1}{V} \\int_V \\eta_{local}(\\dot{\\gamma}) \\nabla \\mathbf{u} \\, dV $$"
                         },
                         {
                             icon: "〰", 
-                            label: "[ 宏观/连续 ] Herschel-Bulkley 方程",
-                            text: "最终在 CFD 网格中，体现为含有屈服应力 $\\tau_0$ 和稠度系数 $k$ 的连续张量场：",
+                            label: "[ 宏观/连续 ] Herschel-Bulkley 连续方程",
+                            text: "微观离散的断裂事件被抹平。最终在宏观网格中，体现为含有屈服应力 $\\tau_0$ 和稠度系数 $k$ 的连续张量场：",
                             math: "$$ \\boldsymbol{\\tau} = \\left( \\frac{\\tau_0}{|\\dot{\\gamma}|} + k |\\dot{\\gamma}|^{n-1} \\right) \\dot{\\boldsymbol{\\gamma}} $$"
                         }
                     ]
@@ -198,29 +228,29 @@
             {
                 id: 3,
                 date: "2026-04-05",
-                tag: "Control Systems",
-                title: "3. 智能体博弈至均场控制 (MFC)",
-                desc: "从离散个体的高维纳什均衡，塌缩为 HJB 与 FP 耦合方程场。",
+                tag: "Control Theory",
+                title: "3. 多智能体博弈至均场控制 (MFC)",
+                desc: "从离散多设备的高维纳什均衡，塌缩为 HJB 与 FP 的耦合偏微分方程。",
                 details: {
-                    title: "控制理论的降维：平均场博弈",
-                    intro: "当系统存在成千上万个自主优化的智能体时，求解联合纳什均衡是 NP-Hard。通过连续化概率密度，实现了解耦。",
+                    title: "控制理论的降维打击：平均场博弈",
+                    intro: "当系统存在海量自主智能体（或分布式控制器）时，求解联合纳什均衡是 NP-Hard 的死路。通过连续化概率密度，实现了控制策略的空间解耦。",
                     steps: [
                         {
                             icon: "i", 
                             label: "[ 微观/离散 ] N-智能体耦合控制",
-                            text: "每个个体 $i$ 试图最小化代价函数，其状态不仅依赖于自己的策略 $u_i$，还受到其他 $N-1$ 个个体状态 $X_{-i}$ 影响：",
-                            math: "$$ \\min_{u_i} \\mathbb{E} \\int_0^T L(X_i(t), u_i(t), \\frac{1}{N}\\sum_{j \\neq i} \\delta_{X_j(t)}) dt $$"
+                            text: "每个智能体 $i$ 试图最小化自身代价，其状态不仅依赖于自己的策略 $u_i$，还受到其他 $N-1$ 个离散个体位置 $X_{-i}$ 影响：",
+                            math: "$$ \\min_{u_i} \\mathbb{E} \\int_0^T L\\left(X_i(t), u_i(t), \\frac{1}{N}\\sum_{j \\neq i} \\delta_{X_j(t)}\\right) dt $$"
                         },
                         {
                             icon: "∞", 
-                            label: "[ 中间态/粗粒化 ] 经验分布极限",
-                            text: "当 $N \\to \\infty$ 时，个体不再关心具体某一个对手，而是响应整个群体的统计连续密度 $m(x,t)$：",
+                            label: "[ 中间态/粗粒化 ] 经验分布的热力学极限",
+                            text: "当 $N \\to \\infty$ 时，个体不再追踪具体的某个对手，而是响应整个大群体的统计连续密度 $m(x,t)$：",
                             math: "$$ m^{(N)}(dx) = \\frac{1}{N}\\sum_{i=1}^N \\delta_{X_i}(dx) \\xrightarrow{\\text{Weakly}} m(x,t)dx $$"
                         },
                         {
                             icon: "∇", 
-                            label: "[ 宏观/连续 ] 拉斯里-利翁偏微分方程组",
-                            text: "离散优化塌缩为连续时空下的向后 HJB (价值函数 $u$) 与向前 FP (概率密度 $m$) 耦合 PDE：",
+                            label: "[ 宏观/连续 ] 拉斯里-利翁 (Lasry-Lions) 方程",
+                            text: "原先 $N$ 个离散的控制优化，塌缩为连续时空下向后 HJB (控制价值 $u$) 与向前 FP (概率密度 $m$) 的耦合场：",
                             math: "$$ \\begin{cases} -\\partial_t u - \\nu \\Delta u + H(x, \\nabla u, m) = 0 \\\\ \\partial_t m - \\nu \\Delta m - \\text{div}(m D_p H(x, \\nabla u, m)) = 0 \\end{cases} $$"
                         }
                     ]
@@ -228,70 +258,66 @@
             }
         ];
 
-        // 渲染左侧卡片列表
+        // --- 视图渲染引擎 ---
         const indexList = document.getElementById('index-list');
         const detailView = document.getElementById('detail-view');
-        let currentActiveId = null;
 
+        // 1. 渲染左侧笔记列表
         function renderList() {
             noteData.forEach(note => {
                 const card = document.createElement('div');
-                card.className = 'note-card rounded-lg';
+                card.className = 'note-card rounded-xl';
                 card.innerHTML = `
-                    <div class="text-[10px] font-mono text-stone-400 mb-1 flex justify-between">
+                    <div class="text-[10px] font-mono text-stone-400 mb-1.5 flex justify-between">
                         <span>${note.date}</span>
-                        <span>[ ${note.tag} ]</span>
+                        <span class="bg-stone-100 px-1.5 py-0.5 rounded text-stone-500">${note.tag}</span>
                     </div>
-                    <h3 class="text-base font-bold mb-2 text-stone-800">${note.title}</h3>
-                    <p class="text-xs text-stone-500 leading-relaxed">${note.desc}</p>
+                    <h3 class="text-[15px] font-bold mb-1.5 text-stone-800 leading-snug">${note.title}</h3>
+                    <p class="text-[12px] text-stone-500 leading-relaxed">${note.desc}</p>
                 `;
                 card.onclick = () => renderDetail(note.id, card);
                 indexList.appendChild(card);
             });
         }
 
-        // 渲染右侧详情瀑布
+        // 2. 渲染右侧详情瀑布流
         function renderDetail(id, cardElement) {
-            // 更新活跃状态样式
-            document.querySelectorAll('.note-card').forEach(el => el.classList.remove('active', 'border-sky-400'));
-            cardElement.classList.add('active', 'border-sky-400');
+            // 更新左侧列表激活状态
+            document.querySelectorAll('.note-card').forEach(el => el.classList.remove('active'));
+            cardElement.classList.add('active');
 
             const note = noteData.find(n => n.id === id);
             if (!note) return;
 
-            // 构建 HTML (时间轴瀑布流)
+            // 拼装时间轴 Steps HTML
             let stepsHtml = '';
             note.details.steps.forEach(step => {
                 stepsHtml += `
                     <div class="step-container">
-                        <div class="step-icon shadow-sm">${step.icon}</div>
-                        <h4 class="font-bold text-stone-800 text-sm mb-1">${step.label}</h4>
-                        <p class="text-stone-600 text-sm mb-3">${step.text}</p>
-                        <div class="math-box">
+                        <div class="step-icon">${step.icon}</div>
+                        <h4 class="font-bold text-stone-800 text-sm mb-1 ml-1">${step.label}</h4>
+                        <p class="text-stone-600 text-[14px] mb-3 ml-1">${step.text}</p>
+                        <div class="math-box shadow-sm">
                             ${step.math}
                         </div>
                     </div>
                 `;
             });
 
+            // 注入主视图
             detailView.innerHTML = `
-                <div class="animate-[fadeIn_0.4s_ease-out]">
-                    <div class="inline-block px-3 py-1 bg-stone-100 text-stone-500 font-mono text-[10px] rounded-full mb-4 uppercase tracking-wider">
-                        ${note.tag}
-                    </div>
-                    <h2 class="text-2xl font-bold text-stone-800 mb-4">${note.details.title}</h2>
-                    <p class="text-stone-600 text-[15px] mb-10 leading-relaxed bg-sky-50/50 p-4 border-l-4 border-sky-300 rounded-r-lg">
+                <div class="animate-[fadeIn_0.3s_ease-out]">
+                    <h2 class="text-2xl font-bold text-stone-800 mb-4 leading-tight">${note.details.title}</h2>
+                    <p class="text-stone-600 text-[15px] mb-10 leading-relaxed bg-sky-50/60 p-5 border-l-4 border-sky-400 rounded-r-xl">
                         ${note.details.intro}
                     </p>
-                    
-                    <!-- 核心推导瀑布流区 -->
-                    <div class="relative pt-2">
+                    <div class="relative pt-2 pl-2">
                         ${stepsHtml}
                     </div>
                 </div>
             `;
 
-            // 调用 KaTeX 解析生成的数学公式
+            // 唤起 KaTeX 渲染刚刚注入的 DOM 中的数学公式
             renderMathInElement(detailView, {
                 delimiters: [
                     {left: '$$', right: '$$', display: true},
@@ -299,9 +325,12 @@
                 ],
                 throwOnError: false
             });
+            
+            // 每次点击重置滚动条到顶部
+            detailView.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 背景粒子动效
+        // --- 背景粒子动效渲染 ---
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -310,14 +339,15 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             particles = [];
-            const count = Math.floor(window.innerWidth / 20);
+            // 根据屏幕宽度自适应粒子密度
+            const count = Math.floor(window.innerWidth / 25);
             for (let i = 0; i < count; i++) {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.3,
-                    vy: (Math.random() - 0.5) * 0.3,
-                    radius: Math.random() * 1.2 + 0.3
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4,
+                    radius: Math.random() * 1.5 + 0.5
                 });
             }
         }
@@ -325,21 +355,27 @@
         function drawParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#94a3b8';
-            ctx.strokeStyle = 'rgba(148, 163, 184, 0.1)';
+            ctx.strokeStyle = 'rgba(148, 163, 184, 0.12)';
 
             particles.forEach((p, index) => {
-                p.x += p.vx; p.y += p.vy;
+                // 更新坐标
+                p.x += p.vx; 
+                p.y += p.vy;
+                
+                // 碰到边界反弹
                 if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
                 if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
+                // 画粒子圆点
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                 ctx.fill();
 
+                // 画拓扑网络连线
                 for (let j = index + 1; j < particles.length; j++) {
                     let p2 = particles[j];
                     let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if (dist < 100) {
+                    if (dist < 110) {
                         ctx.beginPath();
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
@@ -350,11 +386,15 @@
             requestAnimationFrame(drawParticles);
         }
 
-        // 初始化
+        // 初始化启动
         window.addEventListener('resize', initParticles);
         initParticles();
         drawParticles();
-        renderList();
+        
+        // 确保 KaTeX 加载完成后渲染左侧列表
+        window.addEventListener('DOMContentLoaded', () => {
+            renderList();
+        });
     </script>
 </body>
 </html>
